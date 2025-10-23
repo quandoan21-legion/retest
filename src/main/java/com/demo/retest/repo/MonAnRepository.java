@@ -46,11 +46,7 @@ public class MonAnRepository {
             statement.setString(4, monAn.getAnhDaiDien());
             statement.setDouble(5, monAn.getGia());
             statement.setDate(6, new java.sql.Date(monAn.getNgayBatDauBan().getTime()));
-            if (monAn.getNgaySua() != null) {
-                statement.setTimestamp(7, new java.sql.Timestamp(monAn.getNgaySua().getTime()));
-            } else {
-                statement.setTimestamp(7, null);
-            }
+            statement.setTimestamp(7, null);
             String trangThai = monAn.getTrangThai() != null ? monAn.getTrangThai() : "dang_ban";
             statement.setString(8, trangThai);
 

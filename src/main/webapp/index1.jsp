@@ -57,6 +57,18 @@
                         <img src="<%= mon.getAnhDaiDien() %>" class="card-img-top" alt="<%= mon.getTenMonAn() %>">
                         <div class="card-body">
                             <h5 class="card-title"><%= mon.getTenMonAn() %></h5>
+                            <% String cate = "";
+                                switch (mon.getMaDanhMuc()){
+                                case 1:
+                                    cate = "Món nướng";
+                                case 2:
+                                    cate = "Món luộc";
+                                case 3:
+                                    cate = "Món chay";
+                                case 4:
+                                    cate = "Đồ uống";
+                            } %>
+                             <p class="card-text"><%= cate %></p>
                             <p class="card-text"><%= mon.getMoTa() %></p>
                             <p class="price"><%= mon.getGia() %> VNĐ</p>
                             <button class="btn btn-primary btn-sm" onclick="editMon(<%= mon.getMaMonAn() %>)">
@@ -113,6 +125,7 @@
                             <label>Ảnh Đại Diện (URL)</label>
                             <input type="text" class="form-control" name="anhDaiDien" id="anhDaiDien" placeholder="https://..." pattern="https?://.+" title="Vui lòng nhập URL hợp lệ">
                         </div>
+
                         <div class="form-group">
                             <label>Giá *</label>
                             <input type="number" class="form-control" name="gia" id="gia" required>
