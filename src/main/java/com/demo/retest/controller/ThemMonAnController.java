@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.Date;
 
-@WebServlet(name = "ThemMonAnController", urlPatterns = "/themMonAn")
+
 public class ThemMonAnController extends HttpServlet {
     private final MonAnRepository monAnRepository = new MonAnRepository();
 

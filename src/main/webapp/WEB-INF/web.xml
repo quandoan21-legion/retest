@@ -11,4 +11,13 @@
         <servlet-name>Index</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ThemMonAnController</servlet-name>
+        <servlet-class>com.demo.retest.controller.ThemMonAnController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ThemMonAnController</servlet-name>
+        <url-pattern>/themMonAn</url-pattern>
+    </servlet-mapping>
 </web-app>
