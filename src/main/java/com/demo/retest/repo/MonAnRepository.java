@@ -10,20 +10,15 @@ import java.util.List;
 import java.util.Objects;
 
 public class MonAnRepository {
-    private static final String SELECT_DANG_BAN = """
-            SELECT MaMonAn, TenMonAn, MaDanhMuc, MoTa, AnhDaiDien, Gia, NgayBatDauBan, NgaySua, TrangThai
-            FROM MonAn
-            WHERE TrangThai = 'dang_ban'
-            """;
-    private static final String INSERT_MON_AN = """
-            INSERT INTO MonAn (TenMonAn, MaDanhMuc, MoTa, AnhDaiDien, Gia, NgayBatDauBan, NgaySua, TrangThai)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """;
-
     public List<MonAn> findAllDangBan() throws SQLException {
+        String query = """
+                SELECT MaMonAn, TenMonAn, MaDanhMuc, MoTa, AnhDaiDien, Gia, NgayBatDauBan, NgaySua, TrangThai
+                FROM MonAn
+                WHERE TrangThai = 'dang_ban'
+                """;
         List<MonAn> result = new ArrayList<>();
         Connection connection = requireConnection();
-        try (PreparedStatement statement = connection.prepareStatement(SELECT_DANG_BAN);
+        try (PreparedStatement statement = connection.prepareStatement(query);
              ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 result.add(mapRow(resultSet));
@@ -33,12 +28,16 @@ public class MonAnRepository {
     }
 
     public int insert(MonAn monAn) throws SQLException {
+        String insertSql = """
+                INSERT INTO MonAn (TenMonAn, MaDanhMuc, MoTa, AnhDaiDien, Gia, NgayBatDauBan, NgaySua, TrangThai)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """;
         Objects.requireNonNull(monAn, "monAn không được null");
         Objects.requireNonNull(monAn.getNgayBatDauBan(), "ngayBatDauBan không được null");
 
         Connection connection = requireConnection();
         try (PreparedStatement statement = connection.prepareStatement(
-                INSERT_MON_AN,
+                insertSql,
                 Statement.RETURN_GENERATED_KEYS
         )) {
             statement.setString(1, monAn.getTenMonAn());
@@ -78,7 +77,6 @@ public class MonAnRepository {
         return connection;
     }
 
-    // Chuyển một dòng kết quả sang đối tượng MonAn.
     private MonAn mapRow(ResultSet resultSet) throws SQLException {
         MonAn monAn = new MonAn();
         monAn.setMaMonAn(resultSet.getInt("MaMonAn"));

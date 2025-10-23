@@ -1,6 +1,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Collections" %>
 <%@ page import="com.demo.retest.entity.MonAn" %>
+<%
+    List<MonAn> listMonAn = (List<MonAn>) request.getAttribute("listMonAn");
+    if (listMonAn == null) {
+        listMonAn = Collections.emptyList();
+    }
+    String errorMessage = (String) request.getAttribute("errorMessage");
+    String successMessage = (String) request.getAttribute("successMessage");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,11 +40,16 @@
 
     <div class="container mt-4">
         <h2 class="mb-4">Danh Sách Món Ăn</h2>
+        <% if (successMessage != null) { %>
+            <div class="alert alert-success" role="alert"><%= successMessage %></div>
+        <% } %>
+        <% if (errorMessage != null) { %>
+            <div class="alert alert-danger" role="alert"><%= errorMessage %></div>
+        <% } %>
 
         <div class="row">
             <%
-                List<MonAn> listMonAn = (List<MonAn>) request.getAttribute("listMonAn");
-                if (listMonAn != null && !listMonAn.isEmpty()) {
+                if (!listMonAn.isEmpty()) {
                     for (MonAn mon : listMonAn) {
             %>
                 <div class="col-md-4 mb-4">
@@ -75,7 +89,7 @@
                     <h5 class="modal-title">Thêm Món Ăn Mới</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form id="addForm" method="post" action="themMonAn" enctype="multipart/form-data">
+                <form id="addForm" method="post" action="themMonAn">
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Tên Món Ăn *</label>
@@ -96,8 +110,8 @@
                             <textarea class="form-control" name="moTa" rows="3"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Ảnh Đại Diện</label>
-                            <input type="file" class="form-control-file" name="anhDaiDien" accept="image/*">
+                            <label>Ảnh Đại Diện (URL)</label>
+                            <input type="text" class="form-control" name="anhDaiDien" id="anhDaiDien" placeholder="https://..." pattern="https?://.+" title="Vui lòng nhập URL hợp lệ">
                         </div>
                         <div class="form-group">
                             <label>Giá *</label>
@@ -127,7 +141,7 @@
                     <h5 class="modal-title">Sửa Món Ăn</h5>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                <form id="editForm" method="post" action="suaMonAn" enctype="multipart/form-data">
+                <form id="editForm" method="post" action="suaMonAn">
                     <input type="hidden" name="maMonAn" id="editMaMonAn">
                     <div class="modal-body">
                         <div class="form-group">
@@ -149,8 +163,8 @@
                             <textarea class="form-control" name="moTa" id="editMoTa" rows="3"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Ảnh Đại Diện</label>
-                            <input type="file" class="form-control-file" name="anhDaiDien" accept="image/*">
+                            <label>Ảnh Đại Diện (URL)</label>
+                            <input type="text" class="form-control" name="anhDaiDien" id="editAnhDaiDien" placeholder="https://..." pattern="https?://.+" title="Vui lòng nhập URL hợp lệ">
                         </div>
                         <div class="form-group">
                             <label>Giá *</label>
@@ -246,7 +260,8 @@
                     document.getElementById('editMaMonAn').value = data.maMonAn;
                     document.getElementById('editTenMonAn').value = data.tenMonAn;
                     document.getElementById('editMaDanhMuc').value = data.maDanhMuc;
-                    document.getElementById('editMoTa').value = data.moTa;
+                    document.getElementById('editMoTa').value = data.moTa || '';
+                    document.getElementById('editAnhDaiDien').value = data.anhDaiDien || '';
                     document.getElementById('editGia').value = data.gia;
                     document.getElementById('editNgayBatDauBan').value = data.ngayBatDauBan;
                     document.getElementById('editNgayBatDauBan').min = today;

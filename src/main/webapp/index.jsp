@@ -55,51 +55,5 @@
         }
     </style>
 </head>
-<body>
-<h1>Danh sách món đang bán</h1>
-<% if (errorMessage != null) { %>
-    <div class="alert"><%= errorMessage %></div>
-<% } %>
-<table>
-    <thead>
-    <tr>
-        <th>#</th>
-        <th>Tên món</th>
-        <th>Danh mục</th>
-        <th>Mô tả</th>
-        <th>Giá</th>
-        <th>Ngày bắt đầu bán</th>
-        <th>Ngày sửa</th>
-        <th>Trạng thái</th>
-    </tr>
-    </thead>
-    <tbody>
-    <%
-        if (listMonAn.isEmpty()) {
-    %>
-    <tr>
-        <td class="empty-row" colspan="8">Chưa có món ăn nào đang bán.</td>
-    </tr>
-    <%
-        } else {
-            int index = 1;
-            for (MonAn monAn : listMonAn) {
-    %>
-    <tr>
-        <td><%= index++ %></td>
-        <td><%= monAn.getTenMonAn() %></td>
-        <td><%= monAn.getMaDanhMuc() %></td>
-        <td><%= monAn.getMoTa() != null ? monAn.getMoTa() : "" %></td>
-        <td><%= String.format("%,.0f", monAn.getGia()) %></td>
-        <td><%= monAn.getNgayBatDauBan() != null ? dateFormat.format(monAn.getNgayBatDauBan()) : "" %></td>
-        <td><%= monAn.getNgaySua() != null ? dateTimeFormat.format(monAn.getNgaySua()) : "" %></td>
-        <td><%= monAn.getTrangThai() %></td>
-    </tr>
-    <%
-            }
-        }
-    %>
-    </tbody>
-</table>
-</body>
+<body></body>
 </html>
